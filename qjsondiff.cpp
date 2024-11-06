@@ -1,4 +1,4 @@
-/* Author: Yuriy Kuzin
+﻿/* Author: Yuriy Kuzin
  * Description: Diff like widget for JSON
  *              side by side comparison of two models
  */
@@ -16,18 +16,15 @@ QJsonDiff::QJsonDiff(QWidget *parent):
     prevRightScroll=0;
 
     qjsoncontainer_layout = new QGridLayout();
-    qDebug()<<"$container_groupbox=new QGroupBox(parent)";
 
     container_left_groupbox=new QGroupBox(parent);
     container_left_groupbox->setContentsMargins(QMargins(0,0,0,0));
 
-    qDebug()<<"$cont1=new QJsonContainer(container_groupbox)";
     left_cont=new QJsonContainer(container_left_groupbox);
 
     container_right_groupbox=new QGroupBox(parent);
     container_right_groupbox->setContentsMargins(QMargins(0,0,0,0));
 
-    qDebug()<<"$cont2=new QJsonContainer(container_groupbox1)";
     right_cont=new QJsonContainer(container_right_groupbox);
 
     left_cont->showGoto(true);
@@ -108,6 +105,9 @@ QJsonDiff::QJsonDiff(QWidget *parent):
 
     connect(left_cont,&QJsonContainer::diffSelected,this,&QJsonDiff::on_lefttreeview_clicked);
     connect(right_cont,&QJsonContainer::diffSelected,this,&QJsonDiff::on_righttreeview_clicked);
+
+    useFullPath_checkbox->setVisible(false);
+    compare_pushbutton->setVisible(false);
 }
 
 QJsonDiff::~QJsonDiff()
@@ -121,12 +121,12 @@ QJsonDiff::~QJsonDiff()
     container_right_groupbox->deleteLater();
     button_groupbox->deleteLater();
     button_layout->deleteLater();
-    common_layout->deleteLater();
     common_groupbox->deleteLater();
     compare_shortcut->deleteLater();
     compare_pushbutton->deleteLater();
     syncScroll_checkbox->deleteLater();
     useFullPath_checkbox->deleteLater();
+//    common_layout->deleteLater();
 }
 
 void QJsonDiff::reinitLeftModel()

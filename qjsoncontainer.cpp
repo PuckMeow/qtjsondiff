@@ -1,4 +1,4 @@
-/* Author: Yuriy Kuzin
+﻿/* Author: Yuriy Kuzin
  * Description: widget to load JSON from file or http source
  *              or you can paste it manualy into text area
  *              evrytime model will be updated
@@ -37,19 +37,15 @@ QJsonContainer::QJsonContainer(QWidget *parent):
     collapseSelected = multiSelectMenu.addAction(tr("Collapse Selected"));
 
 
-    qDebug() << "obj_layout parent";
     obj_layout = new QVBoxLayout(parent);
     obj_layout->setContentsMargins(QMargins(0, 0, 0, 0));
 
 
-    qDebug() << "treeview_groupbox parent";
     treeview_groupbox = new QGroupBox(parent);
     treeview_groupbox->setStyleSheet("QGroupBox {  border:0;}");
 
-    qDebug() << "treeview_layout treeview_groupbox";
     treeview_layout = new QVBoxLayout(treeview_groupbox);
 
-    qDebug() << "treeview_layout treeview_groupbox";
     treeview = new QTreeView(treeview_groupbox);
     treeview->setSelectionMode(QAbstractItemView::ExtendedSelection);
     viewjson_plaintext = new QPlainTextEdit(treeview_groupbox);
@@ -77,7 +73,6 @@ QJsonContainer::QJsonContainer(QWidget *parent):
     toolbar->setFloatable(true);
     toolbar->setAllowedAreas(Qt::AllToolBarAreas);
 
-    qDebug() << "expandAll_Checkbox treeview_groupbox";
     expandAll_Checkbox = new QAction(toolbar);
     expandAll_Checkbox->setCheckable(true);
     expandAll_Checkbox->setIcon(QIcon(QPixmap(":/images/tree_collapsed.png")));
@@ -101,8 +96,9 @@ QJsonContainer::QJsonContainer(QWidget *parent):
     showjson_pushbutton->setToolTip(tr("Switch between view modes"));
     showjson_pushbutton->setCheckable(true);
 
-    tools_layout = new QGridLayout(toolbar);
+    tools_layout = new QGridLayout();
     tools_layout->setContentsMargins(0, 0, 0, 0);
+    toolbar->setLayout(tools_layout);
     find_lineEdit = new QLineEdit();
     find_lineEdit->setPlaceholderText(tr("Serach for..."));
     find_lineEdit->setToolTip(tr("Enter text and press enter to search"));
@@ -167,7 +163,6 @@ QJsonContainer::QJsonContainer(QWidget *parent):
     refresh_toolButton->setToolTip(tr("Reload"));
     refresh_toolButton->setFixedSize(28, 28);
     //filePath_lineEdit->setStyleSheet("border: 2");
-    qDebug() << "treeview_layout adding widgets";
     browse_layout->addWidget(filePath_lineEdit, 1);
     browse_layout->addWidget(browse_toolButton, 0);
     browse_layout->addWidget(refresh_toolButton, 1);
@@ -182,7 +177,6 @@ QJsonContainer::QJsonContainer(QWidget *parent):
 
     showJsonButtonPosition();
 
-    qDebug() << "treeview size";
     treeview->resizeColumnToContents(0);
     treeview->resizeColumnToContents(1);
     treeview->resizeColumnToContents(2);
@@ -214,9 +208,7 @@ QJsonContainer::QJsonContainer(QWidget *parent):
     treeview->installEventFilter(this);
     treeview_groupbox->installEventFilter(this);
 
-    qDebug() << "obj_layout add widget treeview_groupbox";
     obj_layout->addWidget(treeview_groupbox);
-    qDebug() << "parent->setLayout(obj_layout)";
     parent->setLayout(obj_layout);
     //connect right click(context menu) signal/slot
     connect(treeview, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(showContextMenu(const QPoint &)));
@@ -1193,7 +1185,6 @@ void QJsonContainer::resetCurrentFind()
 
 void QJsonContainer::on_model_dataUpdated()
 {
-    qDebug() << "model has been changed";
     resetCurrentFind();
     resetGoto();
     if(diffAmount_lineEdit)
@@ -1262,7 +1253,6 @@ bool QJsonContainer::eventFilter(QObject *obj, QEvent *event)
       }
 
     }
-    qDebug()<<event->type();
     return false;
 }
 
@@ -1300,7 +1290,6 @@ void QJsonContainer::showJsonButtonPosition()
     switch (P->showJsonButtonPosition)
     {
         case -2:
-            qDebug()<<"bottom";
 //            if(toolbarbutton)
 //            {
 //                toolbar->removeAction(toolbarbutton);
